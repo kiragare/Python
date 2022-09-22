@@ -1,0 +1,19 @@
+!pip install wget
+!pip install jugaad-data
+from jugaad_data.holidays import holidays
+import wget
+import pandas as pd
+from datetime import date, timedelta
+
+start_date = date(2022, 1, 1)
+end_date = date(2022, 1, 10)
+
+URL="https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR$$FILE$$.zip"
+
+DTRange=pd.bdate_range(start=start_date, end = end_date, 
+                         freq='C', holidays = holidays())
+
+for single_date in DTRange:
+    url=URL.replace("$$FILE$$",single_date.strftime("%d%m%y"))
+    print(url)
+    wget.download(url)
